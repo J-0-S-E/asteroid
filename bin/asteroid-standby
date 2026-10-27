@@ -16,7 +16,7 @@ fi
 # Started from Hyprland autostart, WAYLAND_DISPLAY can still be empty and qs would
 # die at once. Take the socket from Hyprland and wait until it exists.
 until [[ -n ${WAYLAND_DISPLAY:-} && -S ${XDG_RUNTIME_DIR:-/run/user/$UID}/$WAYLAND_DISPLAY ]]; do
-  WAYLAND_DISPLAY=$(hyprctl instances -j 2>/dev/null | jq -r --arg s "${HYPRLAND_INSTANCE_SIGNATURE:-}" '.[] | select(.instance == $s) | .wl_socket')
+  WAYLAND_DISPLAY=$(hyprctl instances -j 2>/dev/null | jq -r --arg s "${HYPRLAND_INSTANCE_SIGNATURE:-}" '.[] | select($s == "" or .instance == $s) | .wl_socket' | head -n1)
   export WAYLAND_DISPLAY
   [[ -S ${XDG_RUNTIME_DIR:-/run/user/$UID}/$WAYLAND_DISPLAY ]] || sleep 1
 done
