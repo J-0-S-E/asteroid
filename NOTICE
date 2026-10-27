@@ -1,0 +1,26 @@
+asteroid is a modified version of ryoshot from Ryoku
+(https://github.com/Ryoku-dev/ryoku, commit e344edb), licensed GPL-3.0.
+asteroid is distributed under the same license (see LICENSE).
+
+Modifications (GPL-3.0 section 5), relative to upstream ryoshot:
+
+- Renamed ryoshot to asteroid: config name, IPC target, layer namespace,
+  lock/trigger/temp files, environment variables, notification app name, and
+  settings paths (now ~/.config/asteroid/).
+- Removed the dependency on Ryoku.Ui.Singletons. Added local singletons in
+  quickshell/Singletons/: Tokens (colours from the Caelestia scheme at
+  ~/.local/state/caelestia/scheme.json, with the upstream values as fallback),
+  I18n (English passthrough), Spawn, and Wm (Hyprland-only, via hyprctl).
+- Removed Ryoku-only features and all network access: OCR, reverse image search,
+  upload to a file host, recording (including key press and webcam toggles),
+  pin to desktop, shutter sound, the hotkey rebind row and the link to the Ryoku
+  hub in the settings panel, and the Ryoku brand file.
+- Replaced ryoku-cmd-grim and ryoku-shell clip-copy with grim and wl-copy.
+- Added freeze-on-press: the launcher grabs every output with grim at key press
+  and Overlay.qml loads those files (ASTEROID_PRECAPTURED).
+- Added standby mode: bin/asteroid-standby keeps one pre-started instance
+  (ASTEROID_STANDBY) that opens through a watched trigger file or IPC.
+  The standby script resolves WAYLAND_DISPLAY from hyprctl and backs off if the
+  instance dies at once.
+- Replaced the launcher with bin/asteroid; added install.sh.
+- Dropped the node-based *.test.mjs files for lib/*.js.
