@@ -7,6 +7,8 @@ Colours follow your Caelestia scheme. No network access, no Ryoku dependency.
 
 ![asteroid overlay on Caelestia with the Dracula scheme](docs/overlay.png)
 
+![Freehand pen annotation](docs/draw.png)
+
 ![Region selected with the annotation toolbar, Caelestia darkgreen scheme](docs/annotate.png)
 
 ## Features
