@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# asteroid launcher. Grabs every monitor the moment the key is pressed (freeze),
+# then opens a standby instance if one is running, or starts one from scratch.
+# Part of asteroid, forked from ryoshot in Ryoku (GPL-3.0).
+set -uo pipefail
+
+if [[ ${1:-} != --wrapper-locked ]]; then
+  exec flock -n -o /tmp/asteroid.lock "$0" --wrapper-locked "$@"
+fi
+shift
+
+export PATH="$HOME/.local/bin:$PATH"
+# Optional dev override: ASTEROID_DIR=/path/to/quickshell runs that directory instead of the installed config
+if [[ -n ${ASTEROID_DIR:-} ]]; then qs_cmd=(qs -p "$ASTEROID_DIR"); else qs_cmd=(qs -c asteroid); fi
+
+# Screenshots folder: the XDG pictures dir, falling back to ~/Pictures
+if [[ -z ${XDG_PICTURES_DIR:-} ]]; then
+  pics=$(xdg-user-dir PICTURES 2>/dev/null || true)
+  [[ -n $pics && $pics != "$HOME" ]] || pics="$HOME/Pictures"
+  export XDG_PICTURES_DIR=$pics
+fi
+
+# Open an existing image in the editor (used by the Edit action): no capture needed
+if [[ -n ${ASTEROID_OPEN:-} ]]; then
+  exec "${qs_cmd[@]}"
+fi
+
+# Freeze the screen now: grim (ppm is raw, fastest to write and read) grabs all
+# outputs in parallel, and Overlay.qml loads the files instead of capturing itself.
+for out in $(hyprctl monitors -j | jq -r '.[].name'); do
+  grim -t ppm -o "$out" "/tmp/asteroid-fallback-$out.ppm" &
+done
+wait
+
+# A standby instance holds the lock: wake it through the trigger file (inotify)
+if ! flock -n /tmp/asteroid-standby.lock true; then
+  date +%s%3N > /tmp/asteroid-trigger
+  exit 0
+fi
+
+# No standby yet: start one for next time, and run this one from scratch
+setsid -f asteroid-standby >/dev/null 2>&1
+export ASTEROID_PRECAPTURED=1
+exec "${qs_cmd[@]}"
