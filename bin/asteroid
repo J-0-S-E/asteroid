@@ -40,5 +40,5 @@ fi
 
 # No standby yet: start one for next time, and run this one from scratch
 setsid -f asteroid-standby >/dev/null 2>&1
-export ASTEROID_PRECAPTURED=1
+export ASTEROID_PRECAPTURED=1 ASTEROID_FORCE_FALLBACK=1
 exec "${qs_cmd[@]}"

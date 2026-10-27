@@ -4,7 +4,7 @@
 # exits, a new one is started. Run it from Hyprland autostart.
 # Part of asteroid, forked from ryoshot in Ryoku (GPL-3.0).
 export PATH="$HOME/.local/bin:$PATH"
-export ASTEROID_STANDBY=1 ASTEROID_PRECAPTURED=1
+export ASTEROID_STANDBY=1 ASTEROID_PRECAPTURED=1 ASTEROID_FORCE_FALLBACK=1
 if [[ -n ${ASTEROID_DIR:-} ]]; then qs_cmd=(qs -p "$ASTEROID_DIR"); else qs_cmd=(qs -c asteroid); fi
 
 if [[ -z ${XDG_PICTURES_DIR:-} ]]; then
