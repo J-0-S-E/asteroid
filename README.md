@@ -5,7 +5,7 @@ Select a region, a window or a whole monitor, annotate it (arrows, shapes, text,
 blur, redaction, spotlight, zoom, step counters), then copy it or save it.
 Colours follow your Caelestia scheme. No network access, no Ryoku dependency.
 
-> Screenshot: _placeholder, add `docs/screenshot.png` here_
+![asteroid overlay on Caelestia with the Dracula scheme](docs/overlay.png)
 
 ## Features
 
