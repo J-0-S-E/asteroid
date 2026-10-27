@@ -7,6 +7,8 @@ Colours follow your Caelestia scheme. No network access, no Ryoku dependency.
 
 ![asteroid overlay on Caelestia with the Dracula scheme](docs/overlay.png)
 
+![Region selected, with the annotation toolbar](docs/annotate.png)
+
 ## Features
 
 - Freeze-on-press: all monitors are grabbed the instant the key is pressed.
